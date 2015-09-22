@@ -2,12 +2,28 @@
 if (! defined('MX_MOBILE_DETECT_KEY'))
 {
 	define('MX_MOBILE_DETECT_NAME', 'MX Mobile Detect');
-	define('MX_MOBILE_DETECT_VER',  '3.0.2');
+	define('MX_MOBILE_DETECT_VER',  '3.0.3');
 	define('MX_MOBILE_DETECT_KEY', 'mobile_detect');
 	define('MX_MOBILE_DETECT_AUTHOR',  'Max Lazar');
 	define('MX_MOBILE_DETECT_DOCS',  'http://www.eec.ms/add-ons/mobile-device-detect');
 	define('MX_MOBILE_DETECT_DESC',  'Detect Mobile Device Requests');
 
+}
+
+
+
+/**
+ * < EE 2.6.0 backward compat
+ */
+
+if ( ! function_exists('ee'))
+{
+    function ee()
+    {
+        static $EE;
+        if ( ! $EE) $EE = get_instance();
+        return $EE;
+    }
 }
 
 /*

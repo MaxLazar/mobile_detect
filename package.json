@@ -1,0 +1,12 @@
+{
+        "schema_version": "1.0",
+        "name" : "mobile_detect",
+        "label": "MX Mobile Detect",
+        "version": "3.0.3",
+        "types": ["plugin"],
+        "paths": {
+                "system": [
+                        "system/expressionengine/third_party/mobile_detect"
+                ]
+        }
+}

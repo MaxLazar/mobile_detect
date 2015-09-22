@@ -11,7 +11,6 @@ require_once PATH_THIRD . 'mobile_detect/config.php';
  * @subpackage Plugins
  * @category Plugins
  * @author    Max Lazar <max@eec.ms>
- * @Commercial - please see LICENSE file included with this distribution
  */
 
 /* !TODO
@@ -21,13 +20,13 @@ require_once PATH_THIRD . 'mobile_detect/config.php';
 
 class Mobile_detect_ext {
 
-	var $settings        = array();
-	var $name   = MX_MOBILE_DETECT_NAME;
-	var $version  = MX_MOBILE_DETECT_VER;
-	var $description = MX_MOBILE_DETECT_DESC;
+	var $settings       = array();
+	var $name           = MX_MOBILE_DETECT_NAME;
+	var $version        = MX_MOBILE_DETECT_VER;
+	var $description    = MX_MOBILE_DETECT_DESC;
 	var $settings_exist = 'y';
-	var $docs_url  = MX_MOBILE_DETECT_DOCS;
-	var $gv_name = "screen_size";
+	var $docs_url       = MX_MOBILE_DETECT_DOCS;
+	var $gv_name        = "screen_size";
 	/**
 	 * Defines the ExpressionEngine hooks that this extension will intercept.
 	 *
@@ -42,29 +41,23 @@ class Mobile_detect_ext {
 	// -------------------------------
 	// Constructor
 	// -------------------------------
-	function Mobile_detect_ext( $settings='' ) {
-		$this->EE =& get_instance();
-		$this->settings = $settings;
-	}
 
 	public function __construct( $settings=FALSE ) {
 
-		$this->EE =& get_instance();
-		
 		if
-		( isset( $this->EE->mx_core ) === FALSE ) {
-			$this->EE->load->library( 'mx_core' );
+		( isset( ee()->mx_core ) === FALSE ) {
+			ee()->load->library( 'mx_core' );
 		}
 
-		$this->EE->mx_core->set_options( array( 'class' => __CLASS__, 'version' => MX_MOBILE_DETECT_VER ) );
+		ee()->mx_core->set_options( array( 'class' => __CLASS__, 'version' => MX_MOBILE_DETECT_VER ) );
 
 		// define a constant for the current site_id rather than calling $PREFS->ini() all the time
 		if
 		( defined( 'SITE_ID' ) == FALSE )
-			define( 'SITE_ID', $this->EE->config->item( 'site_id' ) );
+			define( 'SITE_ID', ee()->config->item( 'site_id' ) );
 
 		// set the settings for all other methods to access
-		$this->settings = ( $settings == FALSE ) ? $this->EE->mx_core->_getSettings() : $this->EE->mx_core->_saveSettingsToSession( $settings );
+		$this->settings = ( $settings == FALSE ) ? ee()->mx_core->_getSettings() : ee()->mx_core->_saveSettingsToSession( $settings );
 	}
 
 
@@ -77,22 +70,22 @@ class Mobile_detect_ext {
 	 * */
 	public function settings_form() {
 
-		$this->EE->lang->loadfile( 'mobile_detect' );
+		ee()->lang->loadfile( 'mobile_detect' );
 
 		// Create the variable array
 		$vars = array(
-			'addon_name' => MX_MOBILE_DETECT_NAME,
-			'error' => FALSE,
-			'input_prefix' => __CLASS__,
-			'message' => FALSE,
-			'settings_form' =>FALSE,
+			'addon_name'     => MX_MOBILE_DETECT_NAME,
+			'error'          => FALSE,
+			'input_prefix'   => __CLASS__,
+			'message'        => FALSE,
+			'settings_form'  =>FALSE,
 			'language_packs' => ''
 		);
 
 		$vars['settings'] = $this->settings;
 		$vars['settings_form'] = TRUE;
 
-		if ( $new_settings = $this->EE->input->post( __CLASS__ ) ) {
+		if ( $new_settings = ee()->input->post( __CLASS__ ) ) {
 
 			foreach ( $new_settings['row_order'] as $key => $value ) {
 
@@ -105,12 +98,12 @@ class Mobile_detect_ext {
 
 			$vars['settings'] = $new_settings;
 
-			$this->EE->mx_core->_saveSettingsToDB( $new_settings );
+			ee()->mx_core->_saveSettingsToDB( $new_settings );
 
-			$this->_ee_notice( $this->EE->lang->line( 'extension_settings_saved_success' ) );
+			$this->_ee_notice( ee()->lang->line( 'extension_settings_saved_success' ) );
 		}
 
-		return $this->EE->load->view( 'form_settings', $vars, true );
+		return ee()->load->view( 'form_settings', $vars, true );
 
 	}
 
@@ -122,8 +115,8 @@ class Mobile_detect_ext {
 	 * @return void
 	 */
 	function _ee_notice( $msg ) {
-		$this->EE->javascript->output( array(
-				'$.ee_notice("'.$this->EE->lang->line( $msg ).'",{type:"success",open:true});',
+		ee()->javascript->output( array(
+				'$.ee_notice("'.ee()->lang->line( $msg ).'",{type:"success",open:true});',
 				'window.setTimeout(function(){$.ee_notice.destroy()}, 3000);'
 			) );
 	}
@@ -140,12 +133,12 @@ class Mobile_detect_ext {
 	 * @return void
 	 */
 	function sessions_start() {
-	
-		if ( $this->EE->input->cookie( 'screen_width', false ) && !empty($this->settings) ) {
-			if ( $this->EE->input->cookie( 'screen_width',  false ) ) {}
-			$screen_width = $this->EE->input->cookie( 'screen_width', '' );
-			$screen_height = $this->EE->input->cookie( 'screen_height', '' );
-			$screen_pixel_ratio = $this->EE->input->cookie( 'pixel_ratio', '' );
+
+		if ( ee()->input->cookie( 'screen_width', false ) && !empty( $this->settings ) ) {
+			if ( ee()->input->cookie( 'screen_width',  false ) ) {}
+			$screen_width = ee()->input->cookie( 'screen_width', '' );
+			$screen_height = ee()->input->cookie( 'screen_height', '' );
+			$screen_pixel_ratio = ee()->input->cookie( 'pixel_ratio', '' );
 
 			unset( $this->settings['row_order'] );
 
@@ -157,20 +150,20 @@ class Mobile_detect_ext {
 
 					if (  $v['name'] != '' ) {$this->gv_name = $v['name'];}
 
-					$this->EE->config->_global_vars[$this->gv_name] = $v['value'];
-					
+					ee()->config->_global_vars[$this->gv_name] = $v['value'];
+
 					break;
 				}
 			}
 
-			$this->EE->config->_global_vars['screen_width'] = $screen_width;
-			$this->EE->config->_global_vars['screen_height'] = $screen_height;
-			$this->EE->config->_global_vars['screen_pixel_ratio'] = $screen_pixel_ratio;
+			ee()->config->_global_vars['screen_width']       = $screen_width;
+			ee()->config->_global_vars['screen_height']      = $screen_height;
+			ee()->config->_global_vars['screen_pixel_ratio'] = $screen_pixel_ratio;
 
 			return;
 		}
-		
-		$this->EE->config->_global_vars[$this->gv_name] = 'default';
+
+		ee()->config->_global_vars[$this->gv_name] = 'default';
 		return;
 	}
 
@@ -179,7 +172,7 @@ class Mobile_detect_ext {
 	// --------------------------------
 
 	function activate_extension() {
-		$this->EE->mx_core->_createHooks($this->hooks);
+		ee()->mx_core->_createHooks( $this->hooks );
 	}
 
 	// END
@@ -198,7 +191,7 @@ class Mobile_detect_ext {
 			// Update to next version
 		}
 
-		$this->EE->db->query( "UPDATE exp_extensions SET version = '".$this->EE->db->escape_str( $this->version )."' WHERE class = '".get_class( $this )."'" );
+		ee()->db->query( "UPDATE exp_extensions SET version = '".ee()->db->escape_str( $this->version )."' WHERE class = '".get_class( $this )."'" );
 	}
 	// END
 
@@ -208,7 +201,7 @@ class Mobile_detect_ext {
 
 	function disable_extension() {
 
-		$this->EE->db->delete( 'exp_extensions', array( 'class' => get_class( $this ) ) );
+		ee()->db->delete( 'exp_extensions', array( 'class' => get_class( $this ) ) );
 	}
 	// END
 }
