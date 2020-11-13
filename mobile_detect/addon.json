@@ -1,0 +1,16 @@
+{
+  "name": "MX Mobile Detect",
+  "shortname": "mobile_detect",
+  "version": "4.2.0",
+  "foundation_version": "4.5.2",
+  "description": "Mobile Detect is a lightweight ExpressionEngine plugin for detecting mobile devices (including tablets)",
+  "license": "MaxLazar",
+  "namespace": "MX\\Mobile_detect",
+  "require": {
+    "php": ">=5.3.*",
+    "expressionengine/core": ">=3.5.17"
+  },
+  "resources": {
+    "themes": false
+  }
+}
