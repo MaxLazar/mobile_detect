@@ -1,14 +1,14 @@
-#MX Mobile Detect
+# MX Mobile Detect
 ![MX Mobile Detect](resources/img/mx-mobile.png)
 
 MX Mobile Detect is a lightweight plugin for detecting mobile devices (including tablets). It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.
 
-##Installation
+## Installation
 
 * Place the **mobile_detect** folder inside your **user/addons** folder
 * Go to **cp/addons** and install *MX Mobile Detect*.
 
-##Template Tags
+## Template Tags
 
 ### Check if any mobile device
 	{exp:mobile_detect:ismobile}
@@ -163,11 +163,11 @@ Can be useful for menu
 Refresh mobile detect result
 
 
-##Support Policy
+## Support Policy
 
 This is Communite Edition add-on.
 
-##Contributing To MX Mobile Detect
+## Contributing To MX Mobile Detect
 
 Your participation to MX Mobile Detect development is very welcome!
 
@@ -178,6 +178,6 @@ You may participate in the following ways:
 Before you start, please adopt an existing issue (labelled with "ready for adoption") or start a new one to avoid duplicated efforts.
 Please submit a merge request after you finish development.
 
-###License
+### License
 
 The MX Mobile Detect is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
