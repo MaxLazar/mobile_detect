@@ -1,4 +1,7 @@
 # MX Mobile Detect
+
+![MX Mobile Detect DEMO](resources/img/mx-mobile-demo.png)
+
 ![MX Mobile Detect](resources/img/mx-mobile.png)
 
 MX Mobile Detect is a lightweight plugin for detecting mobile devices (including tablets). It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.
