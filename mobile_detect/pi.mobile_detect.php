@@ -2,8 +2,6 @@
 
 namespace MX\Mobile_detect;
 
-require_once __DIR__.'/vendor/autoload.php';
-
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
