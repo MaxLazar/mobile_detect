@@ -19,7 +19,7 @@ $plugin_info = array(
     'pi_author'      => MX_MOBILE_DETECT_AUTHOR,
     'pi_author_url'  => MX_MOBILE_DETECT_DOCS,
     'pi_description' => MX_MOBILE_DETECT_DESCRIPTION,
-    'pi_usage'       => mobile_detect::usage(),
+    'pi_usage'       => Mobile_detect::usage(),
 );
 
 class Mobile_detect
@@ -237,9 +237,9 @@ class Mobile_detect
     private function _is()
     {
 
-        ee()->load->library('Mobile_Detect');
+        ee()->load->library('Mobile_Detect_Lib');
 
-        return ee()->mobile_detect->is($this->client_request);
+        return ee()->mobile_detect_lib->is($this->client_request);
     }
 
     /**
@@ -258,10 +258,10 @@ class Mobile_detect
             return true;
         }
 
-        ee()->load->library('Mobile_Detect');
+        ee()->load->library('Mobile_Detect_Lib');
 
         $this->agent = $_SERVER['HTTP_USER_AGENT'];
-        ee()->session->cache['mobile_detect']['device'] = (ee()->mobile_detect->isMobile()) ? (ee()->mobile_detect->isTablet() ? 'tablet' : 'phone') : false; //
+        ee()->session->cache['mobile_detect']['device'] = (ee()->mobile_detect_lib->isMobile()) ? (ee()->mobile_detect_lib->isTablet() ? 'tablet' : 'phone') : false; //
         ee()->input->set_cookie('mx_mobile_device', ee()->session->cache['mobile_detect']['device'], $this->cookie_expire);
 
         return true;
